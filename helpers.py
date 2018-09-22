@@ -10,11 +10,10 @@ def is_it_wednesday():
 
 
 def get_league_id():
-    config = ConfigParser.ConfigParser()
-    config.read('example.ini')
+    config = ConfigParser.RawConfigParser()
+    config.read('spookybot.config')
 
-    league_id = config['league_info']['league_id']
-    league_id = int(league_id)
+    league_id = config.getint('league_info', 'league_id')
 
     return league_id
 

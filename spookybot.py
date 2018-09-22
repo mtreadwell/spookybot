@@ -15,6 +15,8 @@ if __name__ == "__main__":
             )
             if command:
                 slack.handle_command(command, channel)
+
+            slack.periodic_command()
             time.sleep(RTM_READ_DELAY)
     else:
         print("Connection failed. Exception traceback printed above.")
