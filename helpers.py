@@ -1,5 +1,5 @@
 import datetime as dt
-import configparser
+import ConfigParser
 
 
 def is_it_wednesday():
@@ -10,7 +10,7 @@ def is_it_wednesday():
 
 
 def get_league_id():
-    config = configparser.ConfigParser()
+    config = ConfigParser.ConfigParser()
     config.read('example.ini')
 
     league_id = config['league_info']['league_id']
