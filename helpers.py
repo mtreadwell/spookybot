@@ -1,5 +1,6 @@
 import datetime as dt
 import ConfigParser
+import sqlite
 
 
 def is_it_wednesday():
@@ -7,6 +8,22 @@ def is_it_wednesday():
     wednesday = wd == wd
 
     return wednesday
+
+def is_it_four():
+    h = dt.datetime.now().hour
+    four = h >= 4
+
+    return four
+
+
+def display_scores():
+    wed = is_it_wednesday()
+    four = is_it_four()
+    sr = sqlite.were_scores_reported()
+
+    display = wed & four & ~sr
+
+    return display
 
 
 def get_league_id():
