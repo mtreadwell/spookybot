@@ -91,6 +91,11 @@ def get_matchup_info(scoreboard):
 
     matchup_info = matchup_info.assign(week=week)
 
+    columns = ['week',
+               'winner_name', 'loser_name',
+               'winner_score', 'loser_score']
+    matchup_info = matchup_info[columns]
+
     return matchup_info
 
 

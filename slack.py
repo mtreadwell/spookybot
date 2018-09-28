@@ -39,8 +39,8 @@ def handle_command(command, channel):
         Executes bot command if the command is known
     """
     # This is where you start to implement more commands!
-    if command.startswith('do'):
-        response = 'Don\'t tell me what to do'
+    if command.startswith('waterbet'):
+        response = 'Mike has some work to do here'
 
         slack_client.api_call(
             "chat.postMessage",
@@ -53,11 +53,12 @@ def periodic_command():
     """
         Executes bot command when a timing condition is met
     """
-    if helpers.display_scores():
+    league_id = helpers.get_league_id()
+    season_id = helpers.get_season_id()
+    week = espn.get_last_week(league_id, season_id)
+
+    if helpers.display_scores(week):
         channel = '#general'
-        league_id = helpers.get_league_id()
-        season_id = helpers.get_season_id()
-        week = espn.get_last_week(league_id, season_id)
 
         scoreboard = espn.get_scoreboard(league_id, season_id, week)
         matchup_info = espn.get_matchup_info(scoreboard)
