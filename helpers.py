@@ -6,7 +6,7 @@ import pandas as pd
 
 def is_it_wednesday():
     wd = dt.datetime.today().weekday()
-    wednesday = wd == wd
+    wednesday = wd == 2
 
     return wednesday
 
