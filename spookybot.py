@@ -1,9 +1,12 @@
 import slack
 import time
+import sqlite
 
 RTM_READ_DELAY = 1
 
 if __name__ == "__main__":
+    sqlite.instantiate_db()
+
     if slack.slack_client.rtm_connect(with_team_state=False):
         print("Starter Bot connected and running!")
         # Read bot's user ID by calling Web API method `auth.test`

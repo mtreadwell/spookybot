@@ -1,4 +1,6 @@
 import requests as rq
+import pandas as pd
+import helpers
 
 
 def get_scoreboard(league_id, season_id, week):
@@ -80,21 +82,32 @@ def get_matchup_info(scoreboard):
         z.update(y)
         return z
 
-    scoreboard = merge_two_dicts(winners, losers)
+    matchup_info = merge_two_dicts(winners, losers)
+    matchup_info = pd.DataFrame(matchup_info)
 
-    def create_matchup_text(scoreboard_):
-        wn = scoreboard_['winner_name']
-        ws = scoreboard_['winner_score']
+    league_id = helpers.get_league_id()
+    season_id = helpers.get_season_id()
+    week = get_last_week(league_id, season_id)
 
-        ln = scoreboard_['loser_name']
-        ls = scoreboard_['loser_score']
+    matchup_info = matchup_info.assign(week=week)
 
-        defeat_text = ['\n*{}* defeated *{}*'.format(w, l) for w, l in zip(wn, ln)]
-        score_text = [' with a score of {} to {}\n'.format(w, l) for w, l in zip(ws, ls)]
-        matchup_text = [d + s for d,s in zip(defeat_text, score_text)]
+    columns = ['week',
+               'winner_name', 'loser_name',
+               'winner_score', 'loser_score']
+    matchup_info = matchup_info[columns]
 
-        return matchup_text
+    return matchup_info
 
-    scoreboard = create_matchup_text(scoreboard)
 
-    return scoreboard
+def get_matchup_text(matchup_info):
+    wn = list(matchup_info['winner_name'])
+    ws = list(matchup_info['winner_score'])
+
+    ln = list(matchup_info['loser_name'])
+    ls = list(matchup_info['loser_score'])
+
+    defeat_text = ['\n*{}* defeated *{}*'.format(w, l) for w, l in zip(wn, ln)]
+    score_text = [' with a score of {} to {}\n'.format(w, l) for w, l in zip(ws, ls)]
+    matchup_text = [d + s for d, s in zip(defeat_text, score_text)]
+
+    return matchup_text

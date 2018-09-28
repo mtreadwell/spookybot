@@ -3,7 +3,7 @@ import helpers
 import os
 import re
 from slackclient import SlackClient
-import time
+import sqlite
 
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 starterbot_id = None
@@ -39,8 +39,8 @@ def handle_command(command, channel):
         Executes bot command if the command is known
     """
     # This is where you start to implement more commands!
-    if command.startswith('do'):
-        response = 'Don\'t tell me what to do'
+    if command.startswith('waterbet'):
+        response = 'Mike has some work to do here'
 
         slack_client.api_call(
             "chat.postMessage",
@@ -53,14 +53,19 @@ def periodic_command():
     """
         Executes bot command when a timing condition is met
     """
-    if helpers.is_it_wednesday():
+    league_id = helpers.get_league_id()
+    season_id = helpers.get_season_id()
+    week = espn.get_last_week(league_id, season_id)
+
+    if helpers.display_scores(week):
         channel = '#general'
-        league_id = helpers.get_league_id()
-        season_id = helpers.get_season_id()
-        week = espn.get_last_week(league_id, season_id)
 
         scoreboard = espn.get_scoreboard(league_id, season_id, week)
         matchup_info = espn.get_matchup_info(scoreboard)
+
+        sqlite.write_table(matchup_info, 'matchup_info')
+
+        matchup_text = espn.get_matchup_text(matchup_info)
 
         def send_score(score):
             slack_client.api_call(
@@ -69,4 +74,4 @@ def periodic_command():
                 text=score
             )
 
-        [send_score(mi) for mi in matchup_info]
+        [send_score(mi) for mi in matchup_text]
