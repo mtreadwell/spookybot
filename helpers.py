@@ -65,3 +65,12 @@ def get_db_name():
     db_name = config.get('db_info', 'db_name')
 
     return db_name
+
+
+def get_subreddit_name():
+    config = ConfigParser.RawConfigParser()
+    config.read('spooky.config')
+
+    subreddit_name = config.get('subreddit', 'subreddit_name')
+
+    return subreddit_name

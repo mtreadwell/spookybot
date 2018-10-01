@@ -4,6 +4,7 @@ import os
 import re
 from slackclient import SlackClient
 import sqlite
+import reddit
 
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 starterbot_id = None
@@ -41,6 +42,26 @@ def handle_command(command, channel):
     # This is where you start to implement more commands!
     if command.startswith('waterbet'):
         response = 'Mike has some work to do here'
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=channel,
+            text=response
+        )
+
+    if command.startswith('constitution'):
+        response = 'In order to form a more perfect Union: https://spooky.life'
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=channel,
+            text=response
+        )
+
+    subreddit = helpers.get_subreddit_name()
+    if command.startswith(subreddit):
+        image = reddit.get_subreddit_image(subreddit)
+        response = image
 
         slack_client.api_call(
             "chat.postMessage",
