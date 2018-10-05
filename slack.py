@@ -7,11 +7,11 @@ import sqlite
 import reddit
 
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
-starterbot_id = None
+bot_id = None
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
 
-def parse_bot_commands(slack_events, starterbot_id_):
+def parse_bot_commands(slack_events, bot_id_):
     """
         Parses a list of events coming from the Slack RTM API to find bot commands.
         If a bot command is found, this function returns a tuple of command and channel.
@@ -20,7 +20,7 @@ def parse_bot_commands(slack_events, starterbot_id_):
     for event in slack_events:
         if event["type"] == "message" and not "subtype" in event:
             user_id, message = parse_direct_mention(event["text"])
-            if user_id == starterbot_id_:
+            if user_id == bot_id_:
                 return message, event["channel"]
     return None, None
 
@@ -39,15 +39,14 @@ def handle_command(command, channel):
     """
         Executes bot command if the command is known
     """
-    # This is where you start to implement more commands!
-    if command.startswith('waterbet'):
-        response = 'Mike has some work to do here'
-
-        slack_client.api_call(
-            "chat.postMessage",
-            channel=channel,
-            text=response
-        )
+    # if command.startswith('waterbet'):
+    #     response = 'Mike has some work to do here'
+    #
+    #     slack_client.api_call(
+    #         "chat.postMessage",
+    #         channel=channel,
+    #         text=response
+    #     )
 
     if command.startswith('constitution'):
         response = 'In order to form a more perfect Union: https://spooky.life'
@@ -61,12 +60,13 @@ def handle_command(command, channel):
     subreddit = helpers.get_subreddit_name()
     if command.startswith(subreddit):
         image = reddit.get_subreddit_image(subreddit)
-        response = image
+        attachments = [{"title": "", "image_url": image}]
 
         slack_client.api_call(
             "chat.postMessage",
             channel=channel,
-            text=response
+            text='',
+            attachments=attachments
         )
 
 
