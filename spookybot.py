@@ -8,13 +8,13 @@ if __name__ == "__main__":
     sqlite.instantiate_db()
 
     if slack.slack_client.rtm_connect(with_team_state=False):
-        print("Starter Bot connected and running!")
+        print("Spookybot connected and running!")
         # Read bot's user ID by calling Web API method `auth.test`
-        starterbot_id = slack.slack_client.api_call("auth.test")["user_id"]
+        bot_id = slack.slack_client.api_call("auth.test")["user_id"]
         while True:
             command, channel = slack.parse_bot_commands(
                 slack.slack_client.rtm_read(),
-                starterbot_id
+                bot_id
             )
             if command:
                 slack.handle_command(command, channel)
