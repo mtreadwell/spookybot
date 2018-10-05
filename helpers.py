@@ -69,7 +69,7 @@ def get_db_name():
 
 def get_subreddit_name():
     config = ConfigParser.RawConfigParser()
-    config.read('spooky.config')
+    config.read('spookybot.config')
 
     subreddit_name = config.get('subreddit', 'subreddit_name')
 
