@@ -19,9 +19,13 @@ def get_subreddit_image(subreddit):
     reddit = reddit_connection()
 
     memes_submissions = reddit.subreddit(subreddit).hot()
-    post_to_pick = random.randint(1, 10)
+    submissions = [x.url for x in memes_submissions if not x.stickied]
 
-    for i in range(0, post_to_pick):
-        submission = next(x for x in memes_submissions if not x.stickied)
+    submissions = [x for x in submissions if "comments" not in x]
+    submissions = [x for x in submissions if "gif" not in x]
+    submissions = [x for x in submissions if "gfy" not in x]
+    submissions = [x for x in submissions if "video" not in x]
 
-    return submission.url
+    submission = random.sample(submissions, 1)
+
+    return submission
