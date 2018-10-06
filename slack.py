@@ -59,7 +59,7 @@ def handle_command(command, channel):
 
     subreddit = helpers.get_subreddit_name()
     if command.startswith(subreddit):
-        image = reddit.get_subreddit_image(subreddit)
+        image = reddit.get_subreddit_image(subreddit)[0]
         attachments = [{"title": "", "image_url": image}]
 
         slack_client.api_call(
