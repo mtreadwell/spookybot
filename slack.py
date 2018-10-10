@@ -57,8 +57,9 @@ def handle_command(command, channel):
             text=response
         )
 
-    subreddit = helpers.get_subreddit_name()
-    if command.startswith(subreddit):
+    subreddit_command = helpers.get_subreddit_command()
+    if command.startswith(subreddit_command):
+        subreddit = helpers.get_subreddit_name()
         image = reddit.get_subreddit_image(subreddit)[0]
         attachments = [{"title": "", "image_url": image}]
 

@@ -74,3 +74,12 @@ def get_subreddit_name():
     subreddit_name = config.get('subreddit', 'subreddit_name')
 
     return subreddit_name
+
+
+def get_subreddit_command():
+    config = ConfigParser.RawConfigParser()
+    config.read('spookybot.config')
+
+    subreddit_command = config.get('subreddit', 'subreddit_command')
+
+    return subreddit_command
