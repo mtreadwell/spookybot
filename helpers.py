@@ -13,7 +13,7 @@ def is_it_wednesday():
 
 def is_it_four():
     h = dt.datetime.now().hour
-    four = h >= 4
+    four = (h >= 4) & (h <= 6)
 
     return four
 
