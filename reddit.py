@@ -18,7 +18,7 @@ def reddit_connection():
 def get_subreddit_image(subreddit):
     reddit = reddit_connection()
 
-    memes_submissions = reddit.subreddit(subreddit).hot()
+    memes_submissions = reddit.subreddit(subreddit).top('week')
     submissions = [x.url for x in memes_submissions if not x.stickied]
 
     submissions = [x for x in submissions if "comments" not in x]

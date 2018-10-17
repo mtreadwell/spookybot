@@ -1,6 +1,7 @@
 import requests as rq
 import pandas as pd
 import helpers
+import time
 
 
 def get_scoreboard(league_id, season_id, week):
@@ -15,6 +16,7 @@ def get_scoreboard(league_id, season_id, week):
 
 
 def get_last_week(league_id, season_id):
+    time.sleep(.5)
     sb = rq.get('http://games.espn.com/ffl/api/v2/scoreboard',
                 params={'leagueId': league_id,
                         'seasonId': season_id})
